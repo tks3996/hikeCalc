@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Appraisal Methods</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 700px;
+            width: 100%;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .content {
+            display: none;
+            min-height: 250px;
+        }
+        .active {
+            display: block;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 20px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Employee Appraisal</h1>
+        <div class="content active" id="step1">
+            <h2>Bell Curve Theory</h2>
+            <p>This Theory in appraisal refers to a performance management method where employees are categorized into different performance levels based on a bell-shaped distribution, essentially dividing them into "top performers," "average performers," and "low performers," with the majority falling in the middle, similar to a normal distribution curve in statistics; this method allows companies to identify and reward high achievers while also pinpointing areas for improvement in underperforming employees.</p>
+            <img src="bellCurve.jpg"/>
+            <p><strong>Key points about the bell curve in appraisal:</strong></p>
+            <p><strong>Distribution:</strong><br>
+                The bell curve visually represents a distribution where most employees fall in the middle 
+                range (average), with a smaller percentage at the top (high performers) and bottom (low performers). 
+            </p>
+            <p><strong>Forced ranking:</strong><br>
+                This method often forces managers to distribute performance ratings according to a predetermined percentage within each category (e.g., 20% top, 60% average, 20% low). </p>
+            <ul>
+                <li> <strong>Benefits:</strong></li>
+                <li>Identifies high-performing employees for recognition and rewards </li>
+                <li>Highlights areas where employees may need additional training or support </li>
+                <li>Provides a structured approach to performance evaluation </li>
+            </ul>
+        </div>
+        <div class="content" id="step2">
+            <h2>360-Degree Feedback</h2>
+            <p>Evaluates employees based on feedback from peers, managers, and self-assessment.</p>
+            <p>Useful for senior employees to eliminate bias and ensure fair appraisal.</p>
+        </div>
+        <div class="content" id="step3">
+            <h2>KPI-Based Performance Appraisal</h2>
+            <p>Employees are evaluated based on:</p>
+            <ul>
+                <li>Code Quality</li>
+                <li>Delivery Timelines</li>
+                <li>Problem-Solving</li>
+                <li>Collaboration & Communication</li>
+                <li>Client Satisfaction</li>
+                <li>Adaptability</li>
+            </ul>
+        </div>
+        <div class="content" id="step4">
+            <h2>Objective and Key Results (OKR Model)</h2>
+            <p>It method helps employees set clear, achievable goals with measurable outcomes, improving performance tracking</p>
+            <ul>
+                <li>Website Performance</li>
+                <li>Validate: https://validator.w3.org/</li>
+                <li>Code review</li>
+                <li>Unit Testing:</li>
+            </ul>
+        </div>
+        <div class="content" id="step5">
+            <h2>BARS Method 📊 </h2>
+            <p>Behavior-based evaluation system ensuring fairness. BARS is a behavior-based evaluation system that rates employees based on real-world performance scenarios, ensuring fairness and accuracy.</p>
+            <ul>
+                <li>Behavioral Attributes (Discipline:)</li>
+                <li>Attendance</li>
+                <li>Support for Other Departments</li>
+                <li>Participation in Cultural or Social Events (e.g., SPL, Cricket, Office Decorations)</li>
+            </ul>
+        </div>
+        <div class="btn-container">
+            <button onclick="prevStep()">Previous</button>
+            <button onclick="nextStep()">Next</button>
+        </div>
+    </div>
+    <script>
+        let stepIndex = 0;
+        const totalSteps = 5;
+
+        function nextStep() {
+            let steps = document.querySelectorAll('.content');
+            steps[stepIndex].classList.remove('active');
+            stepIndex = (stepIndex + 1) % steps.length;
+            steps[stepIndex].classList.add('active');
+            
+            if (stepIndex === totalSteps - 1) {
+                let nextButton = document.querySelector('.btn-container button:last-child');
+                nextButton.onclick = function() {
+                    window.location.href = 'appraisal-form.html';
+                };
+            }
+        }
+
+        function prevStep() {
+            let steps = document.querySelectorAll('.content');
+            steps[stepIndex].classList.remove('active');
+            stepIndex = (stepIndex - 1 + steps.length) % steps.length;
+            steps[stepIndex].classList.add('active');
+            
+            let nextButton = document.querySelector('.btn-container button:last-child');
+            nextButton.onclick = nextStep;
+        }
+    </script>
+</body>
+</html>
