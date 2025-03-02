@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Appraisal Form - Modern Design</title>
+    <title>Employee Appraisal Form</title>
     <style>
+        ::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
+  background-color: #e1e9ff; /* or add it to the track */
+}
+
+/* Add a thumb */
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(25deg, #667eea, #1f2a44);
+}
         body {
-            font-family: 'Segoe UI', Arial, sans-serif;
+            font-family: 'Segoe UI', 'Roboto', Arial, sans-serif;
             margin: 0;
             padding: 20px;
             background: linear-gradient(135deg, #667eea, #764ba2);
@@ -14,78 +24,92 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            color: #333;
+            color: #2d3748;
+            overflow: hidden;
         }
         .main-container {
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: auto 1fr auto;
             width: 100%;
-            max-width: 1200px;
+            max-width: 1440px;
+            height: calc(100vh - 20px);
             gap: 20px;
-        }
-        .content-container {
-            display: flex;
-            gap: 20px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            background: #ffffff;
+            overflow: hidden;
         }
         .form-container {
-            flex: 1;
+            grid-column: 1 / 2;
+            grid-row: 1 / 4;
+            padding: 25px;
             background: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            border-right: 1px solid #e2e8f0;
             overflow-y: auto;
-            max-height: 70vh;
-            border: 1px solid #e2e8f0;
         }
         .graph-container {
-            flex: 1;
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
+            padding: 25px;
             background: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
             display: flex;
             flex-direction: column;
             align-items: center;
-            max-height: 70vh;
-            border: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            max-height: 100%;
+            overflow-y: auto;
         }
         .result-list {
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+            padding: 5px 25px;
             background: #ffffff;
+            max-height: 100%;
+            overflow-y: auto;
+        }
+        .button-container {
+            grid-column: 1 / 3;
+            grid-row: 4 / 4;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
             padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-            border: 1px solid #e2e8f0;
+            background: #f9fafb;
+            border-top: 1px solid #e2e8f0;
         }
         h2 {
-            font-size: 1.8em;
-            margin: 0 0 20px;
+            font-size: 1.5em;
+            margin: 0 0 15px;
             text-align: center;
             color: #1f2a44;
-            font-weight: 600;
+            font-weight: 700;
+            background: linear-gradient(90deg, #667eea, #1f2a44);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         label {
             font-weight: 600;
             font-size: 0.95em;
-            margin-bottom: 5px;
-            color: #2d3748;
+            margin-bottom: 6px;
+            color: #4a5568;
             display: block;
         }
-        input,
-        textarea {
+        input, textarea {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
+            padding: 10px;
+            margin-bottom: 12px;
             border: 1px solid #d1d5db;
-            border-radius: 4px;
-            font-size: 0.9em;
+            border-radius: 6px;
+            font-size: 0.95em;
             box-sizing: border-box;
             transition: border-color 0.3s, box-shadow 0.3s;
+            background: #f9fafb;
         }
         input:focus, textarea:focus {
             border-color: #667eea;
             outline: none;
-            box-shadow: 0 0 5px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 0 6px rgba(102, 126, 234, 0.3);
         }
         textarea {
             height: 60px;
@@ -100,14 +124,15 @@
             background: #f9fafb;
             border-left: 4px solid #667eea;
             border-radius: 6px;
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.2s;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
         }
         .section:hover {
             transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
         }
         .section h3 {
-            font-size: 1.3em;
+            font-size: 1.2em;
             margin: 0 0 10px;
             color: #1f2a44;
             font-weight: 600;
@@ -117,49 +142,50 @@
             color: #718096;
             margin: 0 0 10px;
         }
-        .button-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            margin-top: 20px;
-        }
         button {
-            background: #28a745;
+            background: linear-gradient(90deg, #28a745, #218838);
             color: white;
             padding: 12px;
             border: none;
             cursor: pointer;
             border-radius: 6px;
             font-size: 0.95em;
-            width: 32%;
-            transition: background 0.3s, transform 0.2s;
+            font-weight: 600;
+            text-transform: capitalize;
+            flex: 1;
+            transition: background 0.3s, transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
         }
         button:hover {
-            background: #218838;
+            background: linear-gradient(90deg, #218838, #1e7e34);
             transform: translateY(-2px);
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
         }
         button:disabled {
             background: #cccccc;
             cursor: not-allowed;
             transform: none;
+            box-shadow: none;
         }
         #clearButton {
-            background: #e53e3e;
+            background: linear-gradient(90deg, #e53e3e, #c53030);
         }
         #clearButton:hover {
-            background: #c53030;
+            background: linear-gradient(90deg, #c53030, #b22020);
         }
         canvas {
             width: 100% !important;
-            max-height: 300px;
+            max-height: 250px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
         }
         #overallRatingChart {
-            margin-top: 20px;
-            max-height: 100px;
+            margin-top: 10px;
+            max-height: 80px; /* Reduced height for horizontal bar */
         }
         .overall-rating-label {
             font-size: 1em;
-            margin-top: 15px;
+            margin-top: 10px;
             text-align: center;
             font-weight: 600;
             color: #1f2a44;
@@ -167,15 +193,44 @@
         .result-list ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
         .result-list li {
             padding: 10px;
             border-bottom: 1px solid #e2e8f0;
             font-size: 0.9em;
             color: #2d3748;
+            line-height: 1.5;
         }
         .result-list li:last-child {
             border-bottom: none;
+        }
+        @media (max-width: 1024px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto auto;
+                height: auto;
+            }
+            .form-container {
+                grid-column: 1 / 2;
+                grid-row: 1 / 2;
+            }
+            .graph-container {
+                grid-column: 1 / 2;
+                grid-row: 2 / 3;
+                max-height: none;
+            }
+            .result-list {
+                grid-column: 1 / 2;
+                grid-row: 3 / 4;
+                max-height: none;
+            }
+            .button-container {
+                grid-column: 1 / 2;
+                grid-row: 4 / 5;
+                flex-direction: column;
+                gap: 10px;
+            }
         }
         @media print {
             body {
@@ -183,26 +238,24 @@
                 padding: 0;
             }
             .main-container {
+                display: block;
                 box-shadow: none;
                 border: none;
                 max-width: none;
                 width: 100%;
             }
-            .content-container {
-                display: block;
-            }
             .form-container, .graph-container, .result-list {
                 max-height: none;
                 border: none;
                 box-shadow: none;
-                padding: 10px;
+                padding: 15px;
                 width: 100%;
             }
             .button-container {
                 display: none;
             }
             canvas {
-                max-height: 300px;
+                max-height: 250px;
                 width: 100%;
             }
         }
@@ -210,107 +263,105 @@
 </head>
 <body>
     <div class="main-container">
-        <div class="content-container">
-            <div class="form-container" id="appraisal-form">
-                <h2>Employee Appraisal Form</h2>
-                <label for="employeeName">Employee Name:</label>
-                <input type="text" id="employeeName" placeholder="Enter Employee Name">
+        <div class="form-container" id="appraisal-form">
+            <h2>Employee Appraisal Form</h2>
+            <label for="employeeName">Employee Name:</label>
+            <input type="text" id="employeeName" placeholder="Enter Employee Name">
 
-                <label for="designation">Designation:</label>
-                <input type="text" id="designation" placeholder="e.g., TL, TR, Sr. Developer"> 
+            <label for="designation">Designation:</label>
+            <input type="text" id="designation" placeholder="e.g., TL, TR, Sr. Developer"> 
 
-                <label for="employeeId">Employee ID (Optional):</label>
-                <input type="text" id="employeeId" placeholder="Enter Employee ID">
+            <label for="employeeId">Employee ID (Optional):</label>
+            <input type="text" id="employeeId" placeholder="Enter Employee ID">
 
-                <div class="section">
-                    <h3>1️⃣ 360-Degree Feedback</h3>
-                    <p>Holistic evaluation from multiple sources.</p>
-                    <label>Feedback IRP/Manager:</label>
-                    <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
-                    <textarea placeholder="Remarks"></textarea>
-                </div>
-
-                <div class="section">
-                    <h3>2️⃣ KPI-Based Appraisal 📈</h3>
-                    <p>Specific and quantifiable goals.</p>
-                    <label>Code Quality:</label>
-                    <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
-                    <textarea placeholder="Remarks"></textarea>
-                    <label>Project Delivery:</label>
-                    <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
-                    <textarea placeholder="Remarks"></textarea>
-                    <label>Innovation:</label>
-                    <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
-                    <textarea placeholder="Remarks"></textarea>
-                    <label>Collaboration:</label>
-                    <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
-                    <textarea placeholder="Remarks"></textarea>
-                    <label>Manager Satisfaction:</label>
-                    <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
-                    <textarea placeholder="Remarks"></textarea>
-                    <label>Adaptability:</label>
-                    <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
-                    <textarea placeholder="Remarks"></textarea>
-                </div>
-
-                <div class="section">
-                    <h3>3️⃣ OKR Method 🎯</h3>
-                    <p>Measurable goals for performance.</p>
-                    <label>Website Performance:</label>
-                    <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
-                    <textarea placeholder="Remarks"></textarea>
-                    <label>Code Validation:</label>
-                    <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
-                    <textarea placeholder="Remarks"></textarea>
-                    <label>Unit Testing:</label>
-                    <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
-                    <textarea placeholder="Remarks"></textarea>
-                </div>
-
-                <div class="section">
-                    <h3>4️⃣ BARS Method 📊</h3>
-                    <p>Behavior-based evaluation.</p>
-                    <label>Behavioral Attributes:</label>
-                    <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
-                    <textarea placeholder="Remarks"></textarea>
-                    <label>Discipline:</label>
-                    <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
-                    <textarea placeholder="Remarks"></textarea>
-                    <label>Punctuality:</label>
-                    <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
-                    <textarea placeholder="Remarks"></textarea>
-                    <label>Dedication:</label>
-                    <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
-                    <textarea placeholder="Remarks"></textarea>
-                    <label>Attendance:</label>
-                    <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
-                    <textarea placeholder="Remarks"></textarea>
-                    <label>Team Support:</label>
-                    <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
-                    <textarea placeholder="Remarks"></textarea>
-                    <label>Cultural Participation:</label>
-                    <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
-                    <textarea placeholder="Remarks"></textarea>
-                </div>
+            <div class="section">
+                <h3>1️⃣ 360-Degree Feedback</h3>
+                <p>Holistic evaluation from multiple sources.</p>
+                <label>Feedback IRP/Manager:</label>
+                <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
+                <textarea placeholder="Remarks"></textarea>
             </div>
 
-            <div class="graph-container">
-                <h2>Ratings Overview</h2>
-                <canvas id="ratingChart"></canvas>
-                <canvas id="overallRatingChart"></canvas>
-                <div class="overall-rating-label" id="overallRatingLabel"></div>
+            <div class="section">
+                <h3>2️⃣ KPI-Based Appraisal 📈</h3>
+                <p>Specific and quantifiable goals.</p>
+                <label>Code Quality:</label>
+                <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
+                <textarea placeholder="Remarks"></textarea>
+                <label>Project Delivery:</label>
+                <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
+                <textarea placeholder="Remarks"></textarea>
+                <label>Innovation:</label>
+                <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
+                <textarea placeholder="Remarks"></textarea>
+                <label>Collaboration:</label>
+                <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
+                <textarea placeholder="Remarks"></textarea>
+                <label>Manager Satisfaction:</label>
+                <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
+                <textarea placeholder="Remarks"></textarea>
+                <label>Adaptability:</label>
+                <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
+                <textarea placeholder="Remarks"></textarea>
             </div>
+
+            <div class="section">
+                <h3>3️⃣ OKR Method 🎯</h3>
+                <p>Measurable goals for performance.</p>
+                <label>Website Performance:</label>
+                <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
+                <textarea placeholder="Remarks"></textarea>
+                <label>Code Validation:</label>
+                <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
+                <textarea placeholder="Remarks"></textarea>
+                <label>Unit Testing:</label>
+                <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
+                <textarea placeholder="Remarks"></textarea>
+            </div>
+
+            <div class="section">
+                <h3>4️⃣ BARS Method 📊</h3>
+                <p>Behavior-based evaluation.</p>
+                <label>Behavioral Attributes:</label>
+                <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
+                <textarea placeholder="Remarks"></textarea>
+                <label>Discipline:</label>
+                <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
+                <textarea placeholder="Remarks"></textarea>
+                <label>Punctuality:</label>
+                <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
+                <textarea placeholder="Remarks"></textarea>
+                <label>Dedication:</label>
+                <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
+                <textarea placeholder="Remarks"></textarea>
+                <label>Attendance:</label>
+                <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
+                <textarea placeholder="Remarks"></textarea>
+                <label>Team Support:</label>
+                <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
+                <textarea placeholder="Remarks"></textarea>
+                <label>Cultural Participation:</label>
+                <input type="number" class="rating-input" max="10" min="0" placeholder="Out of 10">
+                <textarea placeholder="Remarks"></textarea>
+            </div>
+        </div>
+
+        <div class="graph-container">
+            <h2>Ratings Overview</h2>
+            <canvas id="ratingChart"></canvas>
+            <canvas id="overallRatingChart"></canvas>
+            <div class="overall-rating-label" id="overallRatingLabel"></div>
+        </div>
+
+        <div class="result-list" id="resultList">
+            <h2>Calculated Salaries</h2>
+            <ul id="salaryList"></ul>
         </div>
 
         <div class="button-container">
             <button id="saveAsPdfButton" onclick="printDiv('appraisal-form')" disabled>Save as PDF</button>
             <button onclick="submitForm()">Submit and Calculate Salary</button>
             <button id="clearButton" onclick="clearForm()">Clear Form</button>
-        </div>
-
-        <div class="result-list" id="resultList">
-            <h2>Calculated Salaries</h2>
-            <ul id="salaryList"></ul>
         </div>
     </div>
 
@@ -376,7 +427,7 @@
                     borderColor: Array(17).fill(getRatingBorderColor(0)),
                     borderWidth: 1,
                     borderRadius: 4,
-                    barThickness: 16
+                    barThickness: 12
                 }]
             },
             options: {
@@ -402,7 +453,7 @@
 
         const ctxOverall = document.getElementById('overallRatingChart').getContext('2d');
         const overallRatingChart = new Chart(ctxOverall, {
-            type: 'bar',
+            type: 'bar', // Still 'bar' but horizontal via indexAxis
             data: {
                 labels: ['Overall Rating'],
                 datasets: [{
@@ -412,23 +463,45 @@
                     borderColor: getRatingBorderColor(0),
                     borderWidth: 1,
                     borderRadius: 4,
-                    barThickness: 20
+                    barThickness: 20 // Adjusted for horizontal bar
                 }]
             },
             options: {
+                indexAxis: 'y', // Makes the bar horizontal
                 scales: {
-                    y: {
+                    x: {
                         beginAtZero: true,
                         max: 10,
-                        title: { display: true, text: 'Average', font: { size: 12 } },
-                        grid: { color: 'rgba(0, 0, 0, 0.05)' }
+                        title: { 
+                            display: true, 
+                            text: 'Rating', 
+                            font: { size: 12, weight: '600' },
+                            color: '#1f2a44'
+                        },
+                        grid: { color: 'rgba(0, 0, 0, 0.05)' },
+                        ticks: { font: { size: 10 }, color: '#4a5568' }
                     },
-                    x: { display: false }
+                    y: { 
+                        title: { 
+                            display: true, 
+                            text: 'Average', 
+                            font: { size: 12, weight: '600' },
+                            color: '#1f2a44'
+                        },
+                        grid: { display: false },
+                        ticks: { font: { size: 10 }, color: '#4a5568' }
+                    }
                 },
                 plugins: {
                     legend: { display: false },
-                    tooltip: { enabled: false }
-                }
+                    tooltip: { 
+                        enabled: true,
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleFont: { size: 12 },
+                        bodyFont: { size: 12 }
+                    }
+                },
+                maintainAspectRatio: false // Allows custom sizing
             }
         });
 
@@ -622,7 +695,7 @@
             }));
 
             localStorage.setItem('hasReturnedFromSalaryCalc', 'false');
-            window.location.href = 'estimateSalCalc.html';
+            window.location.href = 'estimateSalCal.html';
         }
 
         function clearForm() {
@@ -657,7 +730,8 @@
                     <strong>Name:</strong> ${result.employeeName}<br>
                     <strong>Designation:</strong> ${result.designation}<br>
                     ${result.employeeId ? `<strong>Employee ID:</strong> ${result.employeeId}<br>` : ''}
-                    <strong>Total Salary:</strong> ₹${result.totalSalary.toLocaleString('en-IN')}<br>
+                    ${result.currentSalary ? '<strong>Current Salary:</strong> ₹' + result.currentSalary.toLocaleString('en-IN') + '<br>' : ''}
+                    <strong>Updated Salary:</strong> ₹${result.totalSalary.toLocaleString('en-IN')}<br>
                     <strong>Increment:</strong> ₹${result.increment.toLocaleString('en-IN')}<br>
                     <strong>Percentage:</strong> ${result.percentage}%<br>
                     <strong>Rating:</strong> ${result.averageRating}${result.promoted ? '<br><strong>Promoted:</strong> Yes' : ''}

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IT Salary Hike Calculator</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+        .container {
+            display: flex;
+            justify-content: space-around;
+            gap: 40px;
+            background: #fff;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 1440px;
+        }
+        .settings-section {
+            flex: 1;
+            padding: 30px;
+            background: #ffffff;
+            border-right: 1px solid #eee;
+        }
+        .form-section {
+            flex: 1;
+            padding: 30px;
+            background: #f9fafb;
+        }
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #1f2a44;
+            text-align: center;
+        }
+        h2 {
+            font-size: 1.5em;
+            margin-bottom: 15px;
+            color: #4a5568;
+        }
+        .employee-info {
+            margin-bottom: 20px;
+            font-size: 0.95em;
+            color: #2d3748;
+        }
+        .input-group {
+            display: flex;
+            align-items: flex-end;
+            gap: 20px;
+            margin-bottom: 20px;
+            margin-top: 20px;
+        }
+        .input-group div {
+            flex: 1;
+        }
+        .ratio-settings, .hike-range-settings {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .hike-range-settings div {
+            display: flex;
+            flex-direction: column;
+        }
+        .hike-range-settings .range-input {
+            display: flex;
+            gap: 5px;
+        }
+        label {
+            font-size: 1em;
+            margin-bottom: 8px;
+            display: block;
+            color: #4a5568;
+        }
+        input[type="number"] {
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            font-size: 1em;
+            width: 100%;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+        input[type="number"]:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+        .promotion-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .promotion-section input[type="number"] {
+            width: 80px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s;
+            font-weight: bold;
+        }
+        button.redirect-btn {
+            background-color: teal;
+        }
+        button:hover {
+            background: #5a67d8;
+        }
+        .btn-group {
+            display: flex;
+            justify-content: space-between;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 1.1em;
+            color: #1f2a44;
+        }
+        .error {
+            color: #e53e3e;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="settings-section">
+            <h2>General Ratio Settings</h2>
+            <div class="ratio-settings">
+                <div><label for="ratioBelow5">Below 5 yrs:</label><input type="number" id="ratioBelow5" value="1.3" step="0.1" min="1"></div>
+                <div><label for="ratio5to6">5–6 yrs:</label><input type="number" id="ratio5to6" value="2.1" step="0.1" min="1"></div>
+                <div><label for="ratio6to7">6–7 yrs:</label><input type="number" id="ratio6to7" value="1.6" step="0.1" min="1"></div>
+                <div><label for="ratio7to8">7–8 yrs:</label><input type="number" id="ratio7to8" value="1.5" step="0.1" min="1"></div>
+                <div><label for="ratio8to9">8–9 yrs:</label><input type="number" id="ratio8to9" value="1.4" step="0.1" min="1"></div>
+                <div><label for="ratio9to10">9–10 yrs:</label><input type="number" id="ratio9to10" value="1.3" step="0.1" min="1"></div>
+                <div><label for="ratio10to11">10–11 yrs:</label><input type="number" id="ratio10to11" value="1.7" step="0.1" min="1"></div>
+                <div><label for="ratio11to14">11–14 yrs:</label><input type="number" id="ratio11to14" value="1.6" step="0.1" min="1"></div>
+                <div><label for="ratioAbove14">> 14 yrs:</label><input type="number" id="ratioAbove14" value="1.3" step="0.1" min="1"></div>
+            </div>
+
+            <h2>Typical IT Hike Range (%)</h2>
+            <div class="hike-range-settings">
+                <div>
+                    <label>Junior (0-5 yrs):</label>
+                    <div class="range-input">
+                        <input type="number" id="juniorMin" placeholder="Min" step="1" min="1">
+                        <input type="number" id="juniorMax" placeholder="Max" step="1" min="1">
+                    </div>
+                </div>
+                <div>
+                    <label>Mid-Level (5-10 yrs):</label>
+                    <div class="range-input">
+                        <input type="number" id="midMin" placeholder="Min" step="1" min="1">
+                        <input type="number" id="midMax" placeholder="Max" step="1" min="1">
+                    </div>
+                </div>
+                <div>
+                    <label>Senior (10+ yrs):</label>
+                    <div class="range-input">
+                        <input type="number" id="seniorMin" placeholder="Min" step="1" min="1">
+                        <input type="number" id="seniorMax" placeholder="Max" step="1" min="1">
+                    </div>
+                </div>
+                <div>
+                    <label>Exceptional:</label>
+                    <div class="range-input">
+                        <input type="number" id="exceptionalMin" placeholder="Min" step="1" min="1">
+                        <input type="number" id="exceptionalMax" placeholder="Max" step="1" min="1">
+                    </div>
+                </div>
+            </div>
+
+            <h2>Additional Bonuses</h2>
+            <div class="ratio-settings">
+                <div>
+                    <label for="individualContribution">Individual Contribution (%):</label>
+                    <input type="number" id="individualContribution" step="0.1" min="0" placeholder="Bonus %">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-section">
+            <h1>IT Salary Hike Calculator</h1>
+            <div class="employee-info" id="employeeInfo"></div>
+            <form id="salaryForm">
+                <div class="input-group">
+                    <div>
+                        <label for="years">Years of Experience:</label>
+                        <input type="number" id="years" name="years" min="0" step="1" placeholder="Enter years" required>
+                    </div>
+                    <div>
+                        <label for="months">Months of Experience:</label>
+                        <input type="number" id="months" name="months" min="0" max="11" step="1" placeholder="Enter months" required>
+                    </div>
+                </div>
+
+                <label for="currentSalary">Current Salary (₹ lakhs):</label>
+                <input type="number" id="currentSalary" name="currentSalary" min="0" step="0.1" placeholder="Enter current salary">
+
+                <label for="rating">Performance Rating (0-10):</label>
+                <input type="number" id="rating" name="rating" min="0" max="10" step="0.1" placeholder="Enter rating">
+
+                <div class="input-group">
+                    <div>
+                        <label for="yearsWithCompany">Years with Company:</label>
+                        <input type="number" id="yearsWithCompany" name="yearsWithCompany" min="0" step="1" placeholder="Enter years">
+                    </div>
+                    <div>
+                        <label for="marketTrend">Market Trend (%):</label>
+                        <input type="number" id="marketTrend" name="marketTrend" min="0" step="1" placeholder="Industry hike %">
+                    </div>
+                    <div>
+                        <label for="companyPerformance">Company Performance (0-5):</label>
+                        <input type="number" id="companyPerformance" name="companyPerformance" min="0" max="5" step="0.1" placeholder="0-5">
+                    </div>
+                </div>
+
+                <div class="promotion-section">
+                    <label><input type="checkbox" id="promotion" name="promotion" onclick="togglePromotionPercentage()"> Promoted</label>
+                    <input type="number" id="promotionPercentage" name="promotionPercentage" min="0" step="1" value="5" placeholder="%" disabled>
+                </div>
+                <div class="btn-group">
+                    <button type="button" onclick="calculateSalary()">Calculate Hike</button>
+                    <button type="button" class="redirect-btn" onclick="redirectToAppraisal()">Back to Appraisal Form</button>
+                </div>
+            </form>
+            <div id="result"></div>
+            <div id="error" class="error"></div>
+        </div>
+    </div>
+
+    <script>
+        let employeeName = '';
+        let designation = '';
+        let employeeId = '';
+        let latestSalaryResult = null;
+
+        window.onload = function() {
+            const appraisalData = JSON.parse(localStorage.getItem('appraisalData'));
+            if (appraisalData) {
+                employeeName = appraisalData.employeeName || '';
+                designation = appraisalData.designation || '';
+                employeeId = appraisalData.employeeId || '';
+                document.getElementById('rating').value = appraisalData.averageRating || '';
+                document.getElementById('employeeInfo').innerHTML = `
+                    <strong>Name:</strong> ${employeeName}<br>
+                    <strong>Designation:</strong> ${designation}<br>
+                    ${employeeId ? `<strong>Employee ID:</strong> ${employeeId}` : ''}
+                `;
+            }
+        };
+
+        function togglePromotionPercentage() {
+            const promotionCheckbox = document.getElementById('promotion');
+            const promotionPercentageInput = document.getElementById('promotionPercentage');
+            promotionPercentageInput.disabled = !promotionCheckbox.checked;
+            if (!promotionCheckbox.checked) promotionPercentageInput.value = '5';
+        }
+
+        function calculateSalary() {
+            const yearsInput = document.getElementById('years');
+            const monthsInput = document.getElementById('months');
+            const currentSalaryInput = document.getElementById('currentSalary');
+            const ratingInput = document.getElementById('rating');
+            const yearsWithCompanyInput = document.getElementById('yearsWithCompany');
+            const marketTrendInput = document.getElementById('marketTrend');
+            const companyPerformanceInput = document.getElementById('companyPerformance');
+            const promotionInput = document.getElementById('promotion');
+            const promotionPercentageInput = document.getElementById('promotionPercentage');
+            const ratioBelow5 = parseFloat(document.getElementById('ratioBelow5').value) || 1.3;
+            const ratio5to6 = parseFloat(document.getElementById('ratio5to6').value) || 2.1;
+            const ratio6to7 = parseFloat(document.getElementById('ratio6to7').value) || 1.6;
+            const ratio7to8 = parseFloat(document.getElementById('ratio7to8').value) || 1.5;
+            const ratio8to9 = parseFloat(document.getElementById('ratio8to9').value) || 1.4;
+            const ratio9to10 = parseFloat(document.getElementById('ratio9to10').value) || 1.3;
+            const ratio10to11 = parseFloat(document.getElementById('ratio10to11').value) || 1.7;
+            const ratio11to14 = parseFloat(document.getElementById('ratio11to14').value) || 1.6;
+            const ratioAbove14 = parseFloat(document.getElementById('ratioAbove14').value) || 1.3;
+            const juniorMin = document.getElementById('juniorMin').value ? parseFloat(document.getElementById('juniorMin').value) : null;
+            const juniorMax = document.getElementById('juniorMax').value ? parseFloat(document.getElementById('juniorMax').value) : null;
+            const midMin = document.getElementById('midMin').value ? parseFloat(document.getElementById('midMin').value) : null;
+            const midMax = document.getElementById('midMax').value ? parseFloat(document.getElementById('midMax').value) : null;
+            const seniorMin = document.getElementById('seniorMin').value ? parseFloat(document.getElementById('seniorMin').value) : null;
+            const seniorMax = document.getElementById('seniorMax').value ? parseFloat(document.getElementById('seniorMax').value) : null;
+            const exceptionalMin = document.getElementById('exceptionalMin').value ? parseFloat(document.getElementById('exceptionalMin').value) : null;
+            const exceptionalMax = document.getElementById('exceptionalMax').value ? parseFloat(document.getElementById('exceptionalMax').value) : null;
+            const individualContribution = document.getElementById('individualContribution').value ? parseFloat(document.getElementById('individualContribution').value) / 100 : 0;
+            const resultDiv = document.getElementById('result');
+            const errorDiv = document.getElementById('error');
+
+            const years = parseInt(yearsInput.value) || 0;
+            const months = parseInt(monthsInput.value) || 0;
+            const currentSalary = currentSalaryInput.value ? parseFloat(currentSalaryInput.value) * 100000 : null;
+            const rating = ratingInput.value ? parseFloat(ratingInput.value) : 5;
+            const yearsWithCompany = parseInt(yearsWithCompanyInput.value) || 0;
+            const marketTrend = marketTrendInput.value ? parseFloat(marketTrendInput.value) / 100 : 0.1;
+            const companyPerformance = companyPerformanceInput.value ? parseFloat(companyPerformanceInput.value) : 3;
+            const isPromoted = promotionInput.checked;
+            const promotionPercentage = isPromoted ? (promotionPercentageInput.value ? parseFloat(promotionPercentageInput.value) / 100 : 0.05) : 0;
+
+            const totalExperience = years + (months / 12);
+
+            resultDiv.innerHTML = '';
+            errorDiv.innerHTML = '';
+
+            if (years < 0 || months < 0 || months > 11) {
+                errorDiv.innerHTML = 'Please enter valid experience (years >= 0, months 0-11).';
+                return;
+            }
+            if (totalExperience === 0) {
+                errorDiv.innerHTML = 'Total experience must be greater than 0.';
+                return;
+            }
+            if (rating < 0 || rating > 10) {
+                errorDiv.innerHTML = 'Rating must be between 0 and 10.';
+                return;
+            }
+            if (yearsWithCompany < 0) {
+                errorDiv.innerHTML = 'Years with company cannot be negative.';
+                return;
+            }
+            if (companyPerformance < 0 || companyPerformance > 5) {
+                errorDiv.innerHTML = 'Company performance must be between 0 and 5.';
+                return;
+            }
+            if (isPromoted && (!promotionPercentageInput.value || promotionPercentage < 0)) {
+                errorDiv.innerHTML = 'Please enter a valid promotion percentage (0 or greater).';
+                return;
+            }
+            if ((juniorMin && juniorMin <= 0) || (juniorMax && juniorMax <= 0) || 
+                (midMin && midMin <= 0) || (midMax && midMax <= 0) || 
+                (seniorMin && seniorMin <= 0) || (seniorMax && seniorMax <= 0) || 
+                (exceptionalMin && exceptionalMin <= 0) || (exceptionalMax && exceptionalMax <= 0)) {
+                errorDiv.innerHTML = 'Hike range values must be greater than 0 if provided.';
+                return;
+            }
+            if (individualContribution < 0) {
+                errorDiv.innerHTML = 'Individual contribution must be non-negative.';
+                return;
+            }
+            if ([ratioBelow5, ratio5to6, ratio6to7, ratio7to8, ratio8to9, ratio9to10, ratio10to11, ratio11to14, ratioAbove14].some(ratio => ratio <= 0)) {
+                errorDiv.innerHTML = 'All general ratio settings must be greater than 0.';
+                return;
+            }
+
+            let salaryRatio;
+            if (totalExperience < 5) salaryRatio = ratioBelow5;
+            else if (totalExperience >= 5 && totalExperience <= 6) salaryRatio = ratio5to6;
+            else if (totalExperience > 6 && totalExperience <= 7) salaryRatio = ratio6to7;
+            else if (totalExperience > 7 && totalExperience <= 8) salaryRatio = ratio7to8;
+            else if (totalExperience > 8 && totalExperience <= 9) salaryRatio = ratio8to9;
+            else if (totalExperience > 9 && totalExperience <= 10) salaryRatio = ratio9to10;
+            else if (totalExperience > 10 && totalExperience <= 11) salaryRatio = ratio10to11;
+            else if (totalExperience > 11 && totalExperience <= 14) salaryRatio = ratio11to14;
+            else salaryRatio = ratioAbove14;
+
+            const baseSalary = currentSalary || (totalExperience * 100000);
+            const experienceFactor = Math.min(totalExperience / 10, 1);
+            const performanceFactor = rating / 10;
+            const loyaltyFactor = Math.min(yearsWithCompany / 5, 1);
+            const companyFactor = companyPerformance / 5;
+
+            let predictedHikePercentage = (
+                (experienceFactor * 0.20) +
+                (performanceFactor * 0.30) +
+                (marketTrend * 0.20) +
+                (loyaltyFactor * 0.10) +
+                (companyFactor * 0.10) +
+                ((salaryRatio - 1) * 0.10)
+            ) * 100 + (promotionPercentage * 100) + (individualContribution * 100);
+
+            if (totalExperience <= 5 && juniorMin && juniorMax) {
+                predictedHikePercentage = Math.min(Math.max(predictedHikePercentage, juniorMin), juniorMax);
+            } else if (totalExperience > 5 && totalExperience <= 10 && midMin && midMax) {
+                predictedHikePercentage = Math.min(Math.max(predictedHikePercentage, midMin), midMax);
+            } else if (totalExperience > 10 && seniorMin && seniorMax) {
+                predictedHikePercentage = Math.min(Math.max(predictedHikePercentage, seniorMin), seniorMax);
+            }
+            if (rating >= 8 && exceptionalMin && exceptionalMax) {
+                predictedHikePercentage = Math.min(Math.max(predictedHikePercentage, exceptionalMin), exceptionalMax);
+            }
+
+            const estimatedSalary = baseSalary * (1 + (predictedHikePercentage / 100));
+            const increment = estimatedSalary - baseSalary;
+            const totalPercentageFromCurrent = currentSalary ? ((estimatedSalary - currentSalary) / currentSalary) * 100 : null;
+
+            resultDiv.innerHTML = `
+                ${currentSalary ? '<strong>Current Salary:</strong> ₹' + currentSalary.toLocaleString('en-IN') + '<br>' : ''}
+                Predicted Salary: 
+                <span style="font-size: 26px; font-weight: bold; color: #1f2a44;">
+                    ₹${Math.round(estimatedSalary).toLocaleString('en-IN')}
+                </span> per year<br>
+                (Based on ${currentSalary ? 'current salary' : 'estimated base of ₹' + Math.round(baseSalary).toLocaleString('en-IN')}<br>
+                with a predicted hike of 
+                <span style="font-size: 22px; font-weight: bold; color: #1f2a44;">
+                    ${Math.round(predictedHikePercentage)}%
+                </span> for ${totalExperience.toFixed(2)} years experience (Ratio: ${salaryRatio.toFixed(2)}), 
+                ${yearsWithCompany} years with company, ${rating}/10 rating, 
+                ${marketTrend * 100}% market trend, ${companyPerformance}/5 company performance${isPromoted ? ', Promoted (+' + (promotionPercentage * 100) + '%)' : ''}${individualContribution > 0 ? ', Individual Contribution (+' + (individualContribution * 100) + '%)' : ''}).<br>
+                <strong>Increment:</strong> ₹${Math.round(increment).toLocaleString('en-IN')}${currentSalary ? ' (<span style="font-weight: bold;">' + Math.round(totalPercentageFromCurrent) + '%</span> from current salary)' : ''}
+            `;
+
+            latestSalaryResult = {
+                employeeName: employeeName,
+                designation: designation,
+                employeeId: employeeId,
+                totalSalary: Math.round(estimatedSalary),
+                increment: Math.round(increment),
+                percentage: Math.round(predictedHikePercentage),
+                averageRating: rating,
+                promoted: isPromoted,
+                currentSalary: currentSalary || null
+            };
+        }
+
+        function redirectToAppraisal() {
+            if (latestSalaryResult) {
+                localStorage.setItem('salaryResults', JSON.stringify([latestSalaryResult]));
+                localStorage.setItem('hasReturnedFromSalaryCalc', 'true');
+            }
+            window.location.href = 'appraisal-form.html';
+        }
+    </script>
+</body>
+</html>
